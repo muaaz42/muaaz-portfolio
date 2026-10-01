@@ -49,6 +49,14 @@ export default function Contact() {
               </dd>
             </div>
             <div>
+              <dt className="text-white/45">Phone</dt>
+              <dd>
+                <a className="font-medium text-white transition hover:text-[#ff8a3d]" href={`tel:${profile.phone.replace(/\s/g, '')}`}>
+                  {profile.phone}
+                </a>
+              </dd>
+            </div>
+            <div>
               <dt className="text-white/45">Location</dt>
               <dd className="font-medium">{profile.location}</dd>
             </div>
