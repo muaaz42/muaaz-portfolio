@@ -10,9 +10,9 @@ const desktopBadges = [
   { id: 'cursor', style: { left: '54%', top: '18%' }, delay: '0s', depth: 18 },
   { id: 'claude', style: { right: '1.5%', top: '12%', left: 'auto' }, delay: '0.4s', depth: 6 },
   { id: 'github', style: { left: '46%', top: '42%' }, delay: '0.8s', depth: 22 },
-  { id: 'gemini', style: { left: '90%', top: '46%' }, delay: '0.2s', depth: 14 },
+  { id: 'gemini', style: { right: '1%', top: '52%', left: 'auto' }, delay: '0.2s', depth: 14 },
   { id: 'linkedin', style: { left: '50%', top: '68%' }, delay: '1.1s', depth: 16 },
-  { id: 'chatgpt', style: { left: '64%', top: '80%' }, delay: '0.6s', depth: 10 },
+  { id: 'chatgpt', style: { left: '58%', top: '82%' }, delay: '0.6s', depth: 10 },
 ]
 
 const narrowBadges = [
@@ -97,14 +97,14 @@ export default function Hero() {
           ref={figureRef}
           className={
             narrow
-              ? 'absolute inset-x-0 bottom-0 flex h-[92%] items-end justify-center'
-              : 'absolute right-[7%] bottom-0 flex h-[96%] w-[min(340px,30vw)] items-end justify-center'
+              ? 'absolute inset-x-0 bottom-0 flex h-[88%] items-end justify-center'
+              : 'absolute right-[4%] bottom-[6%] top-[10%] flex w-[min(420px,36vw)] items-center justify-center'
           }
         >
           <img
-            src={`${import.meta.env.BASE_URL}character.png?v=4`}
+            src={`${import.meta.env.BASE_URL}character.png?v=16`}
             alt="Portrait of Muaaz"
-            className="character-float h-full w-auto max-w-none object-contain object-bottom"
+            className="character-float h-auto max-h-full w-full max-w-none object-contain object-bottom opacity-100"
             draggable="false"
           />
         </div>
