@@ -2,7 +2,12 @@
 
 @theme {
   --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "DM Serif Display", Georgia, "Times New Roman", serif;
   --color-ember: #ff6a1a;
+}
+
+.font-display {
+  font-family: var(--font-display);
 }
 
 html,
@@ -146,6 +151,26 @@ section[id] {
     box-shadow 0.55s ease;
 }
 
+.lamp-contact {
+  isolation: isolate;
+}
+
+.lamp-stage {
+  user-select: none;
+}
+
+@keyframes lamp-dust {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+    opacity: 0.2;
+  }
+  50% {
+    transform: translate3d(2px, -12px, 0);
+    opacity: 0.75;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
@@ -153,7 +178,8 @@ section[id] {
 
   .float-y,
   .character-float,
-  .reveal {
+  .reveal,
+  .lamp-hint {
     animation: none;
     opacity: 1;
     transform: none;

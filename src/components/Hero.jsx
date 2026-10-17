@@ -102,7 +102,7 @@ export default function Hero() {
           }
         >
           <img
-            src={`${import.meta.env.BASE_URL}character.png?v=16`}
+            src={`${import.meta.env.BASE_URL}character.png?v=17`}
             alt="Portrait of Muaaz"
             className="character-float h-auto max-h-full w-full max-w-none object-contain object-bottom opacity-100"
             draggable="false"
