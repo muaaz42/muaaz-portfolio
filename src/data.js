@@ -3,7 +3,12 @@ export const profile = {
   brand: 'Muaaz Portfolio',
   role: 'UI/UX Designer',
   email: 'malangmuaaz5@gmail.com',
-  phone: '+9247 2100 798',
+  phone: '03472100798',
+  // Opens a direct WhatsApp chat with Muaaz (03472100798)
+  whatsapp: 'https://api.whatsapp.com/send?phone=923472100798&text=Hi%20Muaaz%2C%20I%20saw%20your%20portfolio',
+  instagram: 'https://www.instagram.com/',
+  linkedin: 'https://www.linkedin.com/',
+  website: 'https://muaaz-portfolio-muaaz4.vercel.app/',
   location: 'Available worldwide',
   greeting: 'Hey, I am',
   headline: 'UI/UX Designer',
@@ -39,6 +44,7 @@ export const about = {
 }
 
 export const tools = [
+  { id: 'shopify', name: 'Shopify', detail: 'Storefronts, themes, and commerce experiences.' },
   { id: 'cursor', name: 'Cursor', detail: 'Where I design, build, and refine the interface.' },
   { id: 'claude', name: 'Claude', detail: 'Writing, critique, and thinking through the flow.' },
   { id: 'github', name: 'GitHub', detail: 'Repos, reviews, and shipping the work.' },
@@ -75,7 +81,7 @@ export const jobs = [
   {
     id: 'studio',
     dates: '2019 — 2021',
-    role: 'Visual Designer',
+    role: 'Web Development',
     company: 'Independent studio',
     summary: 'Brand and interface work for small teams who needed a public face and a usable product.',
     points: [

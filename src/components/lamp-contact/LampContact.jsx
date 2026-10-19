@@ -1,6 +1,5 @@
 import { useCallback, useRef, useState } from 'react'
 import { motion, useReducedMotion } from 'framer-motion'
-import { profile } from '../../data'
 import ContactForm from './ContactForm'
 import Lamp from './Lamp'
 
@@ -75,9 +74,6 @@ export default function LampContact() {
         </div>
       </div>
 
-      <p className="relative z-[1] mx-auto max-w-6xl px-5 pb-10 text-sm text-white/30 md:px-14">
-        © {new Date().getFullYear()} {profile.brand}
-      </p>
     </section>
   )
 }

@@ -20,6 +20,21 @@ export default function ToolBadge({ id, className = '', size = 'md' }) {
       </span>
     )
   }
+  if (id === 'shopify') {
+    return (
+      <span
+        className={`grid place-items-center overflow-hidden shadow-[0_12px_28px_rgba(0,0,0,0.35)] ${dim[size]} ${className}`}
+        style={{ background: '#1a1a1a' }}
+      >
+        <img
+          src={`${import.meta.env.BASE_URL}icons/shopify.png?v=1`}
+          alt="Shopify"
+          className={size === 'lg' ? 'h-11 w-11 object-contain' : 'h-9 w-9 object-contain'}
+          draggable="false"
+        />
+      </span>
+    )
+  }
   return (
     <span
       className={`grid place-items-center shadow-[0_12px_28px_rgba(0,0,0,0.35)] ${dim[size]} ${className}`}

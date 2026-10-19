@@ -6,23 +6,25 @@ import { useNarrow } from '../useNarrow'
 import Spotlight from './Spotlight'
 import ToolBadge from './ToolBadge'
 
-const desktopBadges = [
-  { id: 'cursor', style: { left: '54%', top: '18%' }, delay: '0s', depth: 18 },
-  { id: 'claude', style: { right: '1.5%', top: '12%', left: 'auto' }, delay: '0.4s', depth: 6 },
-  { id: 'github', style: { left: '46%', top: '42%' }, delay: '0.8s', depth: 22 },
-  { id: 'gemini', style: { right: '1%', top: '52%', left: 'auto' }, delay: '0.2s', depth: 14 },
-  { id: 'linkedin', style: { left: '50%', top: '68%' }, delay: '1.1s', depth: 16 },
-  { id: 'chatgpt', style: { left: '58%', top: '82%' }, delay: '0.6s', depth: 10 },
-]
+// Full circle around the portrait — even sequence on the outermost orbit line
+const ORBIT_LOGOS = ['cursor', 'shopify', 'claude', 'gemini', 'chatgpt', 'linkedin', 'github']
 
-const narrowBadges = [
-  { id: 'cursor', style: { left: '8%', top: '12%' }, delay: '0s', depth: 12 },
-  { id: 'claude', style: { right: '2%', top: '16%', left: 'auto' }, delay: '0.4s', depth: 8 },
-  { id: 'github', style: { left: '4%', top: '42%' }, delay: '0.8s', depth: 14 },
-  { id: 'gemini', style: { left: '76%', top: '38%' }, delay: '0.2s', depth: 12 },
-  { id: 'linkedin', style: { left: '10%', top: '72%' }, delay: '1.1s', depth: 10 },
-  { id: 'chatgpt', style: { left: '70%', top: '70%' }, delay: '0.6s', depth: 8 },
-]
+function badgesOnOuterOrbit(ids, { startDeg = -90, radius = 50 } = {}) {
+  return ids.map((id, i) => {
+    const deg = startDeg + (i / ids.length) * 360
+    const rad = (deg * Math.PI) / 180
+    return {
+      id,
+      left: 50 + radius * Math.cos(rad),
+      top: 50 + radius * Math.sin(rad),
+      delay: `${(i * 0.12).toFixed(2)}s`,
+      depth: 10 + (i % 4) * 3,
+    }
+  })
+}
+
+const desktopBadges = badgesOnOuterOrbit(ORBIT_LOGOS, { startDeg: -90, radius: 50 })
+const narrowBadges = badgesOnOuterOrbit(ORBIT_LOGOS, { startDeg: -90, radius: 50 })
 
 const rise = {
   hidden: { opacity: 0, y: 16 },
@@ -48,7 +50,8 @@ export default function Hero() {
         const ty = cursor.y * badge.depth * 0.4
         points[index].x += (tx - points[index].x) * 0.08
         points[index].y += (ty - points[index].y) * 0.08
-        node.style.transform = `translate3d(${points[index].x.toFixed(2)}px, ${points[index].y.toFixed(2)}px, 0)`
+        // Keep badge centered on the orbit point + parallax offset
+        node.style.transform = `translate(-50%, -50%) translate3d(${points[index].x.toFixed(2)}px, ${points[index].y.toFixed(2)}px, 0)`
       })
       const node = figureRef.current
       if (node) {
@@ -83,22 +86,42 @@ export default function Hero() {
     >
       <div className={narrow ? 'pointer-events-none relative order-2 h-[540px]' : 'pointer-events-none absolute inset-0'}>
         <div
-          className="orbit"
+          className="orbit orbit-outer"
           style={
             narrow
-              ? { width: '86%', left: '50%', top: '52%', transform: 'translate(-50%, -50%)' }
-              : { width: 'min(560px, 44vw)', right: '4%', top: '56%', transform: 'translateY(-50%)' }
+              ? { width: '92%', left: '50%', top: '50%', transform: 'translate(-50%, -50%)' }
+              : { width: 'min(540px, 44vw)', right: '3%', top: '52%', transform: 'translateY(-50%)' }
           }
         >
-          <i style={{ inset: '12%' }} />
-          <i style={{ inset: '24%' }} />
+          {/* Inner rings only — logos sit in sequence on the outermost ring */}
+          <i style={{ inset: '14%' }} />
+          <i style={{ inset: '28%' }} />
+
+          {badges.map((badge) => (
+            <div
+              key={badge.id}
+              id={`badge-${badge.id}`}
+              className="orbit-badge pointer-events-auto absolute z-10"
+              style={{ left: `${badge.left}%`, top: `${badge.top}%` }}
+            >
+              <div
+                className="float-y hover:scale-110"
+                style={{
+                  animationDelay: badge.delay,
+                  animationDuration: `${6.5 + badge.depth * 0.08}s`,
+                }}
+              >
+                <ToolBadge id={badge.id} size="lg" />
+              </div>
+            </div>
+          ))}
         </div>
         <div
           ref={figureRef}
           className={
             narrow
-              ? 'absolute inset-x-0 bottom-0 flex h-[88%] items-end justify-center'
-              : 'absolute right-[4%] bottom-[6%] top-[10%] flex w-[min(420px,36vw)] items-center justify-center'
+              ? 'absolute inset-x-[8%] bottom-[4%] top-[8%] flex items-end justify-center'
+              : 'absolute right-[8%] bottom-[12%] top-[12%] flex w-[min(360px,30vw)] items-center justify-center'
           }
         >
           <img
@@ -108,18 +131,6 @@ export default function Hero() {
             draggable="false"
           />
         </div>
-        {badges.map((badge) => (
-          <div
-            key={badge.id}
-            id={`badge-${badge.id}`}
-            className="pointer-events-auto absolute z-10"
-            style={badge.style}
-          >
-            <div className="float-y hover:scale-110" style={{ animationDelay: badge.delay, animationDuration: `${6.5 + badge.depth * 0.08}s` }}>
-              <ToolBadge id={badge.id} size="lg" />
-            </div>
-          </div>
-        ))}
       </div>
 
       <motion.div
@@ -155,6 +166,15 @@ export default function Hero() {
             >
               <MailIcon />
             </a>
+            <a
+              href={profile.whatsapp}
+              target="_blank"
+              rel="noreferrer"
+              aria-label="Chat on WhatsApp"
+              className="grid h-12 w-12 place-items-center rounded-full border border-white/20 text-[#25D366] transition hover:-translate-y-0.5 hover:border-[#25D366]/70"
+            >
+              <WhatsAppIcon />
+            </a>
           </motion.div>
         </div>
 
@@ -184,6 +204,14 @@ function MailIcon() {
     <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
       <rect x="2" y="3.5" width="14" height="11" rx="2" stroke="currentColor" strokeWidth="1.4" />
       <path d="M3 5.5 9 10l6-4.5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
+    </svg>
+  )
+}
+
+function WhatsAppIcon() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.435 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
     </svg>
   )
 }
